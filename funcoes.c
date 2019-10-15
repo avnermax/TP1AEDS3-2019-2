@@ -11,8 +11,8 @@ FILE * opData(char *arq){
 	return data;
 }
 
-Info * interpretaEntrada(int *n, char *arq){
-int a, b, c, d, x, y;
+Info * interpretaEntrada(int *a, char *arq){
+int b, c, d, x, y;
 Info *info;
 FILE *data;
 
@@ -21,10 +21,9 @@ FILE *data;
 
 	// Pega os valores do arquivo e grava na struct.
 	while(!feof(data)){
-		fscanf(data, "%d\n", &a);
-        *n = a; // Passa a quantidade de testes no arquivo, para o 'for' externo a essa função.
-		info = (Info*) malloc(a * sizeof(Info));
-		for(x = 0; x < a; x++){
+		fscanf(data, "%d\n", a);
+		info = (Info*) malloc((*a) * sizeof(Info));
+		for(x = 0; x < *a; x++){
 			fscanf(data, "%d %d\n", &b, &c);
 			info[x].quantPlanetas = b;
 			info[x].quantSaltos = c;

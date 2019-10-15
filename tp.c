@@ -18,9 +18,7 @@ Info *info;
 
 	for(x = 0; x < n; x++){
 		if(strcmp(alg, "FB") == 0){
-			printf("teste\n");
 			executaForcaBruta(info);
-			printf("teste2\n");
 		}else if(strcmp(alg, "AG") == 0){
 			executaAlgGuloso(info);
 		}else if(strcmp(alg, "PD") == 0){
