@@ -27,7 +27,7 @@ FILE *data;
 			fscanf(data, "%d %d\n", &b, &c);
 			info[x].quantPlanetas = b;
 			info[x].quantSaltos = c;
-			info[x].distancias = (int*) malloc((b + 1) * sizeof(int));
+			info[x].distancias = (int*) malloc((b + 1) * sizeof(int)); // Aloca vetor para guardar os valores de distâncias.
 			for(y = 0; y < b + 1; b++){
 				fscanf(data, "%d\n", &d);
 				info[x].distancias[y] = d;
