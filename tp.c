@@ -14,7 +14,6 @@ Info *info;
 	scanf("%s", arq);
 
 	info = interpretaEntrada(&n, arq);
-	printf("%d\n", n);
 
 	for(x = 0; x < n; x++){
 		if(strcmp(alg, "FB") == 0){
