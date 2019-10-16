@@ -1,6 +1,6 @@
 #include "funcoes.h"
 
-/*--------------- FUNCÕES ----------------*/
+/*--------------- FUNÇÕES ----------------*/
 FILE * opData(char *arq){
 	FILE *data = fopen(arq, "r");
 	if(data == NULL){
