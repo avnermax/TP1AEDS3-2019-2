@@ -2,7 +2,7 @@
 
 int main(int argc, char* argv[]){
 int x, n;
-char arq[2], *alg = NULL;
+char arq[30], *alg = NULL;
 Info *info;
 
     // Pega os arquivos passados como argumento.
@@ -22,6 +22,9 @@ Info *info;
 			executaAlgGuloso(info);
 		}else if(strcmp(alg, "PD") == 0){
 			executaProgDinamica(info);
+		}else{
+			printf("Algoritmo para resolução digitado incorretamente.\n");
+			break;
 		}
 	}
 

@@ -22,23 +22,19 @@ FILE *data;
 	// Pega os valores do arquivo e grava na struct.
 	while(!feof(data)){
 		if(cLinha >= 1){
-			printf("%d\n", *a);
 			for(x = 0; x < *a; x++){
 				fscanf(data, "%d %d\n", &b, &c);
 				info[x].quantPlanetas = b;
 				info[x].quantSaltos = c;
-				printf("b: %d | c:%d\n", b, c);
 				info[x].distancias = (int*) malloc((b + 1) * sizeof(int)); // Aloca vetor para guardar os valores de distâncias.
 				for(y = 0; y < b + 1; y++){
 					fscanf(data, "%d\n", &d);
 					info[x].distancias[y] = d;
-					printf("d:%d\n", d);
 				}
 			}
 		}else if(cLinha == 0){
 			fscanf(data, "%d\n", a);
 			info = (Info*) malloc((*a) * sizeof(Info));
-			printf("%d\n", *a);
 			cLinha++;
 		}
 	}
