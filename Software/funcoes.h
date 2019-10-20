@@ -11,9 +11,9 @@ typedef struct T_Info{
 /* funcoes.c */
 void imprimeResultado(int n, Info *info);
 Info * interpretaEntrada(int *n, char *entrada);
-void executaForcaBruta(Info *info);
-void executaAlgGuloso(Info *info);
-void executaProgDinamica(Info *info);
+void executaForcaBruta(int n, Info *info);
+void executaAlgGuloso(int n, Info *info);
+void executaProgDinamica(int n, Info *info);
 
 /* arg.c */
 void getarg(int argc, char **argv, char **alg);

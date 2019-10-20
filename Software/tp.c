@@ -15,17 +15,15 @@ Info *info;
 
 	info = interpretaEntrada(&n, arq);
 
-	for(x = 0; x < n; x++){
-		if(strcmp(alg, "FB") == 0){
-			executaForcaBruta(info);
-		}else if(strcmp(alg, "AG") == 0){
-			executaAlgGuloso(info);
-		}else if(strcmp(alg, "PD") == 0){
-			executaProgDinamica(info);
-		}else{
-			printf("Algoritmo para resolução digitado incorretamente.\n");
-			break;
-		}
+	if(strcmp(alg, "FB") == 0){
+		executaForcaBruta(n, info);
+	}else if(strcmp(alg, "AG") == 0){
+		executaAlgGuloso(n, info);
+	}else if(strcmp(alg, "PD") == 0){
+		executaProgDinamica(n, info);
+	}else{
+		printf("Falha ao escolher o algoritmo de resolução do problema.\n");
+		return 0;
 	}
 
 	imprimeResultado(n, info); // Guarda resultados no arquivo 'saida'.

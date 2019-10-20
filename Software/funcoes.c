@@ -56,17 +56,17 @@ FILE *data;
 /*-------------- ALGORITMOS --------------*/
 
 /* FORÇA BRUTA */
-void executaForcaBruta(Info *info){
+void executaForcaBruta(int n, Info *info){
 
 }
 
 /* SOLUÇÃO GULOSA */
-void executaAlgGuloso(Info *info){
+void executaAlgGuloso(int n, Info *info){
 
 }
 
 /* PROGRAMAÇÃO DINÂMICA */
-void executaProgDinamica(Info *info){
+void executaProgDinamica(int n, Info *info){
 
 }
 
