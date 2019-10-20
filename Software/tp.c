@@ -5,10 +5,10 @@ int n;
 char arq[30], *alg = NULL;
 Info *info;
 
-    // Pega os arquivos passados como argumento.
+    // Pega qual algoritmo usar, como argumento.
 	getarg(argc, argv, &alg);
 
-	// Digite o nome do arquivo de entrada.
+	// Pega o nome do arquivo de entrada.
 	printf("Digite o nome do arquivo de entrada\n");
 	printf(":: ");
 	scanf("%s", arq);
