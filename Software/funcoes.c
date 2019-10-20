@@ -57,17 +57,35 @@ FILE *data;
 
 /* FORÇA BRUTA */
 void executaForcaBruta(int n, Info *info){
+int x;
 
+	//
+
+	for(x = 0; x < n; x++){
+
+	}
 }
 
 /* SOLUÇÃO GULOSA */
 void executaAlgGuloso(int n, Info *info){
+int x;
 
+	//
+
+	for(x = 0; x < n; x++){
+
+	}
 }
 
 /* PROGRAMAÇÃO DINÂMICA */
 void executaProgDinamica(int n, Info *info){
+int x;
 
+	//
+
+	for(x = 0; x < n; x++){
+
+	}
 }
 
 /*----------------------------------------*/
