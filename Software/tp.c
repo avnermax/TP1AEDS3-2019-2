@@ -1,7 +1,7 @@
 #include "funcoes.h"
 
 int main(int argc, char* argv[]){
-int x, n;
+int n;
 char arq[30], *alg = NULL;
 Info *info;
 
