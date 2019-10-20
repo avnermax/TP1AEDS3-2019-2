@@ -28,5 +28,7 @@ Info *info;
 		}
 	}
 
+	imprimeResultado(n, info); // Guarda resultados no arquivo 'saida'.
+
 	return 0;
 }

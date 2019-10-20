@@ -13,4 +13,4 @@ funcoes.o: funcoes.c funcoes.h
 	$(CC) $(CFLAGS) -c funcoes.c $(CLIBS)
 
 clean:
-	rm -rf $(OBJS) tp
+	rm -rf $(OBJS) saida tp

@@ -5,10 +5,11 @@
 
 typedef struct T_Info{
 	int *distancias, quantPlanetas, quantSaltos;
+	int resultado;
 }Info;
 
 /* funcoes.c */
-FILE * opData(char *arq);
+void imprimeResultado(int n, Info *info);
 Info * interpretaEntrada(int *n, char *entrada);
 void executaForcaBruta(Info *info);
 void executaAlgGuloso(Info *info);
