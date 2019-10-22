@@ -13,6 +13,8 @@ Info *info;
 	printf(":: ");
 	scanf("%s", arq);
 
+	printf("teste");
+
 	info = interpretaEntrada(&n, arq);
 
 	if(strcmp(alg, "FB") == 0){
