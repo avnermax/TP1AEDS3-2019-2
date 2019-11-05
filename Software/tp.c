@@ -1,4 +1,3 @@
-// teste de instalação do git no PC Óricles
 #include "funcoes.h"
 int main(int argc, char* argv[]){
 int n;
@@ -12,8 +11,6 @@ Info *info;
 	printf("Digite o nome do arquivo de entrada\n");
 	printf(":: ");
 	scanf("%s", arq);
-
-	printf("teste");
 
 	info = interpretaEntrada(&n, arq);
 
