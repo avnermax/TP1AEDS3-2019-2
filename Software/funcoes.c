@@ -57,26 +57,27 @@ FILE *data;
 
 /* FORÇA BRUTA */
 void executaForcaBruta(int n, Info *info){
-int x, y, q, soma, *vetIndSoma;
+int x, y, q, somaValores, somaInd, *vetIndSoma;
 
 	// Faz todos os testes em força bruta.
 	for(x = 0; x < n; x++){
 		q = ((info[x].quantPlanetas + 1) - info[x].quantSaltos) + 1;
 		vetIndSoma = (int*) malloc(q * sizeof(int));
 		while(1){
-			for(y = 0; y < q; y++){
-				vetIndSoma[y] = info[x].distancias[y];
-			}
-			soma = somaIndices(vetIndSoma, info[x].distancias, q);
+			// Cria vetor para controle, referente ao número de saltos possíveis.
+			for(y = 0; y < q; y++) vetIndSoma[y] = info[x].distancias[y];
+
+			// Soma valores referentes ao vetor de indices.
+			somaValores = somaIndices(vetIndSoma, info[x].distancias, q);
 
 			// percorrer nas posições restantes.
-
+			
 		}
 	}
 }
 
 int somaIndices(int *i, int *vet, int q){
-int x;
+int x, soma;
 
 	for(x = 0; x < q; x++){
 		soma = soma + vet[i[x]];
