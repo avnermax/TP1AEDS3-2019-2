@@ -57,30 +57,43 @@ FILE *data;
 
 /* FORÇA BRUTA */
 void executaForcaBruta(int n, Info *info){
-int x, y, q, somaValores, somaInd, *vetIndSoma;
+int x, y, q, somaAtual, menorSoma, *vetIndSoma;
 
 	// Faz todos os testes em força bruta.
 	for(x = 0; x < n; x++){
-		q = ((info[x].quantPlanetas + 1) - info[x].quantSaltos) + 1;
-		vetIndSoma = (int*) malloc(q * sizeof(int));
+
+		q = (info[x].quantPlanetas + 1) - info[x].quantSaltos;
+		// Cria vetor para controle das posições percorridas para efetuar a soma.
+		vetIndSoma = (int*) malloc(n * sizeof(int));
 		while(1){
-			// Cria vetor para controle, referente ao número de saltos possíveis.
+			// Preenche vetor com as posições iniciais que serão somadas.
 			for(y = 0; y < q; y++) vetIndSoma[y] = info[x].distancias[y];
 
 			// Soma valores referentes ao vetor de indices.
-			somaValores = somaIndices(vetIndSoma, info[x].distancias, q);
+			somaAtual = somaIndices(q, vetIndSoma, info[x].distancias);
 
-			// percorrer nas posições restantes.
-			
+			// Verifica se a somaAtual é menor que menorSoma. Se sim, passa o valor para a variável menorSoma.
+			if(somaAtual < menorSoma) menorSoma = somaAtual;
+
+			// Atualiza posições que devem ser somadas, até que cheguem no caso final.
+			y = q - 1;
+			vetIndSoma[y]
 		}
+
+		// A partir da configuração com salto de menor valor, busca agora o maior salto entre as distancias atuais.
+
+
+		// Grava o resultado na variável de saída.
+		result = info[x].resultado;
+
 	}
 }
 
-int somaIndices(int *i, int *vet, int q){
+int somaIndices(int q, int *i, int *vet){
 int x, soma;
 
 	for(x = 0; x < q; x++){
-		soma = soma + vet[i[x]];
+		soma += vet[i[x]];
 	}
 
 	return soma;
