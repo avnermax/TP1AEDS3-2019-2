@@ -19,7 +19,7 @@ Info * interpretaEntrada(int *a, char *arq){
 	Info *info;
 	FILE *data;
 
-    // Abre e lê arquivo de entrada.
+	// Abre e lê arquivo de entrada.
 	data = fopen(arq, "r");
 	if(data == NULL){
 		printf("Falha ao abrir o arquivo '%s'!\n", arq);
@@ -38,7 +38,6 @@ Info * interpretaEntrada(int *a, char *arq){
 					fscanf(data, "%d\n", &d);
 					info[x].distancias[y] = d; // Guarda valores de cada distancia disponível, para uma configuração.
 				}
-				printf("\n");
 			}
 		}else if(cLinha == 0){
 			fscanf(data, "%d\n", a);
@@ -49,7 +48,7 @@ Info * interpretaEntrada(int *a, char *arq){
 
 	fclose(data);
 
-    return info;
+	return info;
 }
 
 /*----------------------------------------*/
@@ -61,23 +60,27 @@ int fat(int n){
 	return (n == 1 || n == 0) ? 1: n * fat(n - 1);
 }
 
-void testaCombinacoes(int **matriz, int k, int *vetor, int *data, int inicio, int fim, int indice, int r){
+void testaCombinacoes(int **matriz, int k, int *vetor, int indice, int *data, int inicio, int fim, int r){
 	int i, j;
 
 	if (indice == r){
-		for (j = 0; j < r; j++){
-			matriz[k][j] = data[j];
-		}
+		printf("vetor\n");
+		for (j = 0; j < r; j++) printf("%d ", data[j]);
+		printf("\n");
+		printf("matriz | k:%d\n", k);
+		for (j = 0; j < r; j++) matriz[k][j] = data[j];
+		printf("=======\n");
+		return;
 	}
 
-	for (i = inicio; i <= fim && fim-i+1 >= r-indice; i++){
+	for(i = inicio; i <= fim && fim-i+1 >= r-indice; i++){
 		data[indice] = vetor[i];
-		testaCombinacoes(matriz, k + 1, vetor, data, i + 1, fim, indice + 1, r);
+		testaCombinacoes(matriz, k + 1, vetor, indice + 1, data, i + 1, fim, r);
 	}
 }
 
 void somaMenorCombinacao(int *vetor, int n, int r, int c){
-	int i, *data, **matriz;
+	int i, j, *data, **matriz;
 
 	// Vetor que contém os itens a serem guardados na matriz.
 	data = (int*) malloc(r * sizeof(int));
@@ -86,11 +89,11 @@ void somaMenorCombinacao(int *vetor, int n, int r, int c){
 	matriz = (int**) malloc(c * sizeof(int*));
 	for(i = 0; i < c; i++) matriz[i] = calloc(r, sizeof(int));
 
-	testaCombinacoes(matriz, 0, vetor, data, 0, n - 1, 0, r);
+	testaCombinacoes(matriz, 0, vetor, 0, data, 0, n - 1, r);
 
-	for(int x=0;x<c;x++){
-		for(int y=0;y<r;y++){
-			printf("%d ", matriz[x][y]);
+	for(i=0;i<c;i++){
+		for(j=0;j<r;j++){
+			printf("%d ", matriz[i][j]);
 		}
 		printf("\n");
 	}
@@ -110,10 +113,7 @@ void executaForcaBruta(int n, Info *info){
 		int fatA = fat(info[x].quantPlanetas + 1);
 		int fatB = fat(info[x].quantSaltos);
 		int fatC = fat(q);
-		numComb = fatA / fatB + fatC;
-		printf("fatA:%d\nfatB:%d\nfatC:%d\n", fatA, fatB, fatC);
-		printf("numComb:%d\n", (int)numComb);
-		return;
+		numComb = fatA / (fatB * fatC);
 
 		somaMenorCombinacao(info[x].distancias, info[x].quantPlanetas + 1, q, (int)numComb);
 
