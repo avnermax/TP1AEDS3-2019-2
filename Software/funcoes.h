@@ -5,7 +5,7 @@
 
 typedef struct T_Info{
 	int *distancias, quantPlanetas, quantSaltos;
-	int resultado;
+	int menorSoma, resultado;
 }Info;
 
 /* funcoes.c */
