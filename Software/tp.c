@@ -1,8 +1,8 @@
 #include "funcoes.h"
-int main(int argc, char* argv[]){
-int n;
-char arq[30], *alg = NULL;
-Info *info;
+	int main(int argc, char* argv[]){
+	int n;
+	char arq[30], *alg = NULL;
+	Info *info;
 
     // Pega qual algoritmo usar, como argumento.
 	getarg(argc, argv, &alg);

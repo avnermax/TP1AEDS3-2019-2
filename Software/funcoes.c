@@ -3,8 +3,8 @@
 /*--------------- FUNÇÕES ----------------*/
 
 void imprimeResultado(int n, Info *info){
-int x;
-FILE *data;
+	int x;
+	FILE *data;
 
 	data = fopen("saida", "w");
 	for(x = 0; x < n; x++){
@@ -15,9 +15,9 @@ FILE *data;
 }
 
 Info * interpretaEntrada(int *a, char *arq){
-int b, c, d, x, y, cLinha = 0;
-Info *info;
-FILE *data;
+	int b, c, d, x, y, cLinha = 0;
+	Info *info;
+	FILE *data;
 
     // Abre e lê arquivo de entrada.
 	data = fopen(arq, "r");
@@ -38,6 +38,7 @@ FILE *data;
 					fscanf(data, "%d\n", &d);
 					info[x].distancias[y] = d; // Guarda valores de cada distancia disponível, para uma configuração.
 				}
+				printf("\n");
 			}
 		}else if(cLinha == 0){
 			fscanf(data, "%d\n", a);
@@ -56,52 +57,78 @@ FILE *data;
 /*-------------- ALGORITMOS --------------*/
 
 /* FORÇA BRUTA */
+int fat(int n){
+	return (n == 1 || n == 0) ? 1: n * fat(n - 1);
+}
+
+void testaCombinacoes(int **matriz, int k, int *vetor, int *data, int inicio, int fim, int indice, int r){
+	int i, j;
+
+	if (indice == r){
+		for (j = 0; j < r; j++){
+			matriz[k][j] = data[j];
+		}
+	}
+
+	for (i = inicio; i <= fim && fim-i+1 >= r-indice; i++){
+		data[indice] = vetor[i];
+		testaCombinacoes(matriz, k + 1, vetor, data, i + 1, fim, indice + 1, r);
+	}
+}
+
+void somaMenorCombinacao(int *vetor, int n, int r, int c){
+	int i, *data, **matriz;
+
+	// Vetor que contém os itens a serem guardados na matriz.
+	data = (int*) malloc(r * sizeof(int));
+
+	// Aloca matriz que conterá valores para serem somados e posteriormente testados.
+	matriz = (int**) malloc(c * sizeof(int*));
+	for(i = 0; i < c; i++) matriz[i] = calloc(r, sizeof(int));
+
+	testaCombinacoes(matriz, 0, vetor, data, 0, n - 1, 0, r);
+
+	for(int x=0;x<c;x++){
+		for(int y=0;y<r;y++){
+			printf("%d ", matriz[x][y]);
+		}
+		printf("\n");
+	}
+	printf("\n");
+}
+
 void executaForcaBruta(int n, Info *info){
-int x, y, q, somaAtual, menorSoma, *vetIndSoma;
+	int x, q;
+	float numComb;
 
 	// Faz todos os testes em força bruta.
 	for(x = 0; x < n; x++){
 
 		q = (info[x].quantPlanetas + 1) - info[x].quantSaltos;
-		// Cria vetor para controle das posições percorridas para efetuar a soma.
-		vetIndSoma = (int*) malloc(n * sizeof(int));
-		while(1){
-			// Preenche vetor com as posições iniciais que serão somadas.
-			for(y = 0; y < q; y++) vetIndSoma[y] = info[x].distancias[y];
 
-			// Soma valores referentes ao vetor de indices.
-			somaAtual = somaIndices(q, vetIndSoma, info[x].distancias);
+		// Determina o número máximo de combinações para uma configuração a ser testada.
+		int fatA = fat(info[x].quantPlanetas + 1);
+		int fatB = fat(info[x].quantSaltos);
+		int fatC = fat(q);
+		numComb = fatA / fatB + fatC;
+		printf("fatA:%d\nfatB:%d\nfatC:%d\n", fatA, fatB, fatC);
+		printf("numComb:%d\n", (int)numComb);
+		return;
 
-			// Verifica se a somaAtual é menor que menorSoma. Se sim, passa o valor para a variável menorSoma.
-			if(somaAtual < menorSoma) menorSoma = somaAtual;
-
-			// Atualiza posições que devem ser somadas, até que cheguem no caso final.
-			y = q - 1;
-			vetIndSoma[y]
-		}
+		somaMenorCombinacao(info[x].distancias, info[x].quantPlanetas + 1, q, (int)numComb);
 
 		// A partir da configuração com salto de menor valor, busca agora o maior salto entre as distancias atuais.
 
 
 		// Grava o resultado na variável de saída.
-		result = info[x].resultado;
+		// info[x].resultado = menorSoma;
 
 	}
-}
-
-int somaIndices(int q, int *i, int *vet){
-int x, soma;
-
-	for(x = 0; x < q; x++){
-		soma += vet[i[x]];
-	}
-
-	return soma;
 }
 
 /* SOLUÇÃO GULOSA */
 void executaAlgGuloso(int n, Info *info){
-int x;
+	int x;
 
 	// Faz todos os testes na solução gulosa.
 	for(x = 0; x < n; x++){
@@ -111,7 +138,7 @@ int x;
 
 /* PROGRAMAÇÃO DINÂMICA */
 void executaProgDinamica(int n, Info *info){
-int x;
+	int x;
 
 	// Faz todos os testes em programação dinâmica.
 	for(x = 0; x < n; x++){
