@@ -81,7 +81,7 @@ void testaCombinacoes(int *menor, int *vetor, int indice, int *data, int inicio,
 	}
 }
 
-void somaMenorCombinacao(int *menor, int *vetor, int n, int r, int c){
+int somaMenorCombinacao(int *menor, int *vetor, int n, int r, int c){
 	int *data;
 
 	// Vetor que contém os itens a serem guardados na matriz.
@@ -90,16 +90,16 @@ void somaMenorCombinacao(int *menor, int *vetor, int n, int r, int c){
 	testaCombinacoes(menor, vetor, 0, data, 0, n - 1, r);
 
 	printf("menor:%d\n\n", *menor);
+	return *menor;
 }
 
 void executaForcaBruta(int n, Info *info){
-	int x, q;
+	int x, y, q, maior, menor;
 	float numComb;
-
 
 	// Faz todos os testes em força bruta.
 	for(x = 0; x < n; x++){
-		info[x].menorSoma = 1000000000;
+		info[x].menorSoma = 2147483647;
 
 		q = (info[x].quantPlanetas + 1) - info[x].quantSaltos;
 
@@ -109,13 +109,16 @@ void executaForcaBruta(int n, Info *info){
 		int fatC = fat(q);
 		numComb = fatA / (fatB * fatC);
 
-		somaMenorCombinacao(&info[x].menorSoma, info[x].distancias, info[x].quantPlanetas + 1, q, (int)numComb);
+		menor = somaMenorCombinacao(&info[x].menorSoma, info[x].distancias, info[x].quantPlanetas + 1, q, (int)numComb);
 
 		// A partir da configuração com salto de menor valor, busca agora o maior salto entre as distancias atuais.
-
+		maior = menor;
+		for(y = 0; y < info[x].quantPlanetas + 1; y++){
+			if(info[x].distancias[y] > maior) maior = info[x].distancias[y];
+		}
 
 		// Grava o resultado na variável de saída.
-		// info[x].resultado = menorSoma;
+		info[x].resultado = maior;
 
 	}
 }
