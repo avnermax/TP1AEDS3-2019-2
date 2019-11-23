@@ -60,7 +60,7 @@ int fat(int n){
 	return (n == 1 || n == 0) ? 1: n * fat(n - 1);
 }
 
-void testaCombinacoes(int *menor, int *vetor, int indice, int *data, int inicio, int fim, int r){
+void somaMenorCombinacao(int *menor, int *vetor, int indice, int *data, int inicio, int fim, int r){
 	int i, j, soma = 0;
 
 	if (indice == r){
@@ -77,17 +77,17 @@ void testaCombinacoes(int *menor, int *vetor, int indice, int *data, int inicio,
 
 	for(i = inicio; i <= fim && fim-i+1 >= r-indice; i++){
 		data[indice] = vetor[i];
-		testaCombinacoes(menor, vetor, indice + 1, data, i + 1, fim, r);
+		somaMenorCombinacao(menor, vetor, indice + 1, data, i + 1, fim, r);
 	}
 }
 
-int somaMenorCombinacao(int *menor, int *vetor, int n, int r, int c){
+int testaCombinacoes(int *menor, int *vetor, int n, int r, int c){
 	int *data;
 
 	// Vetor que contém os itens a serem guardados na matriz.
 	data = (int*) malloc(r * sizeof(int));
 
-	testaCombinacoes(menor, vetor, 0, data, 0, n - 1, r);
+	somaMenorCombinacao(menor, vetor, 0, data, 0, n - 1, r);
 
 	printf("menor:%d\n\n", *menor);
 	return *menor;
@@ -109,7 +109,7 @@ void executaForcaBruta(int n, Info *info){
 		int fatC = fat(q);
 		numComb = fatA / (fatB * fatC);
 
-		menor = somaMenorCombinacao(&info[x].menorSoma, info[x].distancias, info[x].quantPlanetas + 1, q, (int)numComb);
+		menor = testaCombinacoes(&info[x].menorSoma, info[x].distancias, info[x].quantPlanetas + 1, q, (int)numComb);
 
 		// A partir da configuração com salto de menor valor, busca agora o maior salto entre as distancias atuais.
 		maior = menor;
