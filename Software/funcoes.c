@@ -64,7 +64,11 @@ void somaMenorCombinacao(int **mat, int *k, int *vetor, int indice, int *data, i
 	int i, j;
 
 	if (indice == r){
-		for (j = 0; j < r; j++) mat[*k][j] = data[j];
+		for (j = 0; j < r; j++){
+			mat[*k][j] = data[j];
+			printf("%d ", mat[*k][j]);
+		}
+		printf("\n");
 
 		*k += 1;
 		return;
