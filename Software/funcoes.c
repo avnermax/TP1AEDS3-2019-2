@@ -60,14 +60,12 @@ int fat(int n){
 	return (n == 1 || n == 0) ? 1: n * fat(n - 1);
 }
 
-void somaMenorCombinacao(int **mat, int *k, int *vetor, int indice, int *data, int inicio, int fim, int r){
+void combinacao(int **mat, int *k, int *vetor, int indice, int inicio, int fim, int r){
 	int i, j;
 
 	if (indice == r){
-		for (j = 0; j < r; j++){
-			mat[*k][j] = data[j];
-			printf("%d ", mat[*k][j]);
-		}
+		// Testa valores matriz
+		for (j = 0; j < r; j++) printf("%d ", mat[*k][j]);
 		printf("\n");
 
 		*k += 1;
@@ -75,18 +73,14 @@ void somaMenorCombinacao(int **mat, int *k, int *vetor, int indice, int *data, i
 	}
 
 	for(i = inicio; i <= fim && fim-i+1 >= r-indice; i++){
-		data[indice] = vetor[i];
-		somaMenorCombinacao(mat, k, vetor, indice + 1, data, i + 1, fim, r);
+		mat[*k][indice] = vetor[i];
+		combinacao(mat, k, vetor, indice + 1, i + 1, fim, r);
 	}
 }
 
-void testaCombinacoes(int **mat, int *k, int *vetor, int n, int r, int c){
-	int *data;
-
-	// Vetor que contém os itens a serem guardados na matriz.
-	data = (int*) malloc(r * sizeof(int));
-
-	somaMenorCombinacao(mat, k, vetor, 0, data, 0, n - 1, r);
+void buscaCombinacoes(int **mat, int *k, int *vetor, int n, int r, int c){
+	// Inicia a busca das combinações recursivamente.
+	combinacao(mat, k, vetor, 0, 0, n - 1, r);
 }
 
 void executaForcaBruta(int n, Info *info){
@@ -109,7 +103,7 @@ void executaForcaBruta(int n, Info *info){
 		for(y = 0; y < (numComb); y++) info[x].matriz[y] = calloc(q, sizeof(int));
 
 
-		testaCombinacoes(info[x].matriz, &num, info[x].distancias, info[x].quantPlanetas + 1, q, (int)numComb);
+		buscaCombinacoes(info[x].matriz, &num, info[x].distancias, info[x].quantPlanetas + 1, q, (int)numComb);
 
 		// A partir das combinações obtidas, precisamos selecionar a que a soma dê a menor distância correta.
 
