@@ -60,12 +60,14 @@ int fat(int n){
 	return (n == 1 || n == 0) ? 1: n * fat(n - 1);
 }
 
-void combinacao(int **mat, int *k, int *vetor, int indice, int inicio, int fim, int r){
+void combinacao(int **mat, int *k, int *vetor, int indice, int *data, int inicio, int fim, int r){
 	int i, j;
 
 	if (indice == r){
-		// Testa valores matriz
-		for (j = 0; j < r; j++) printf("%d ", mat[*k][j]);
+		for (j = 0; j < r; j++){
+			mat[*k][j] = data[j];
+			printf("%d ", mat[*k][j]);
+		}
 		printf("\n");
 
 		*k += 1;
@@ -73,14 +75,19 @@ void combinacao(int **mat, int *k, int *vetor, int indice, int inicio, int fim, 
 	}
 
 	for(i = inicio; i <= fim && fim-i+1 >= r-indice; i++){
-		mat[*k][indice] = vetor[i];
-		combinacao(mat, k, vetor, indice + 1, i + 1, fim, r);
+		data[indice] = vetor[i];
+		combinacao(mat, k, vetor, indice + 1, data, i + 1, fim, r);
 	}
 }
 
 void buscaCombinacoes(int **mat, int *k, int *vetor, int n, int r, int c){
-	// Inicia a busca das combinações recursivamente.
-	combinacao(mat, k, vetor, 0, 0, n - 1, r);
+	int *data;
+
+	// Vetor que contém os itens a serem guardados na matriz.
+	data = (int*) malloc(r * sizeof(int));
+
+	// Inicia a recursão que busca as combinações.
+	combinacao(mat, k, vetor, 0, data, 0, n - 1, r);
 }
 
 void executaForcaBruta(int n, Info *info){
