@@ -90,7 +90,7 @@ void testaCombinacoes(int **mat, int *k, int *vetor, int n, int r, int c){
 }
 
 void executaForcaBruta(int n, Info *info){
-	int x, y, z, q, num;
+	int x, y, q, num;
 	float numComb;
 
 	// Faz todos os testes em força bruta.
@@ -111,7 +111,7 @@ void executaForcaBruta(int n, Info *info){
 
 		testaCombinacoes(info[x].matriz, &num, info[x].distancias, info[x].quantPlanetas + 1, q, (int)numComb);
 
-		// A partir das configurações obtidas, precisamos selecionar a que a soma dê a menor distância correta.
+		// A partir das combinações obtidas, precisamos selecionar a que a soma dê a menor distância correta.
 
 		// Após encontrar salto de menor valor, busca agora o maior salto entre as distancias originais.
 
