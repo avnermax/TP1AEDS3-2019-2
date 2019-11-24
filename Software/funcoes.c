@@ -60,47 +60,38 @@ int fat(int n){
 	return (n == 1 || n == 0) ? 1: n * fat(n - 1);
 }
 
-void somaMenorCombinacao(int *menor, int *vetor, int indice, int *data, int inicio, int fim, int r){
-	int i, j, soma = 0;
+void somaMenorCombinacao(int **mat, int *k, int *vetor, int indice, int *data, int inicio, int fim, int r){
+	int i, j;
 
 	if (indice == r){
-		for (j = 0; j < r; j++) printf("%d ", data[j]);
-		for (j = 0; j < r; j++){
-			soma += data[j];
-		}
-		printf("soma:%d\n", soma);
+		for (j = 0; j < r; j++) mat[*k][j] = data[j];
 
-		if(soma <= *menor) *menor = soma;
-
+		*k += 1;
 		return;
 	}
 
 	for(i = inicio; i <= fim && fim-i+1 >= r-indice; i++){
 		data[indice] = vetor[i];
-		somaMenorCombinacao(menor, vetor, indice + 1, data, i + 1, fim, r);
+		somaMenorCombinacao(mat, k, vetor, indice + 1, data, i + 1, fim, r);
 	}
 }
 
-int testaCombinacoes(int *menor, int *vetor, int n, int r, int c){
+void testaCombinacoes(int **mat, int *k, int *vetor, int n, int r, int c){
 	int *data;
 
 	// Vetor que contém os itens a serem guardados na matriz.
 	data = (int*) malloc(r * sizeof(int));
 
-	somaMenorCombinacao(menor, vetor, 0, data, 0, n - 1, r);
-
-	printf("menor:%d\n\n", *menor);
-	return *menor;
+	somaMenorCombinacao(mat, k, vetor, 0, data, 0, n - 1, r);
 }
 
 void executaForcaBruta(int n, Info *info){
-	int x, y, q, maior, menor;
+	int x, y, z, q, num;
 	float numComb;
 
 	// Faz todos os testes em força bruta.
 	for(x = 0; x < n; x++){
-		info[x].menorSoma = 2147483647;
-
+		num = 0;
 		q = (info[x].quantPlanetas + 1) - info[x].quantSaltos;
 
 		// Determina o número máximo de combinações para uma configuração a ser testada.
@@ -109,16 +100,19 @@ void executaForcaBruta(int n, Info *info){
 		int fatC = fat(q);
 		numComb = fatA / (fatB * fatC);
 
-		menor = testaCombinacoes(&info[x].menorSoma, info[x].distancias, info[x].quantPlanetas + 1, q, (int)numComb);
+		// Aloca matriz que armazena todas as combinações de uma configurações.
+		info[x].matriz = (int**) malloc(numComb * sizeof(int*));
+		for(y = 0; y < (numComb); y++) info[x].matriz[y] = calloc(q, sizeof(int));
 
-		// A partir da configuração com salto de menor valor, busca agora o maior salto entre as distancias atuais.
-		maior = menor;
-		for(y = 0; y < info[x].quantPlanetas + 1; y++){
-			if(info[x].distancias[y] > maior) maior = info[x].distancias[y];
-		}
+
+		testaCombinacoes(info[x].matriz, &num, info[x].distancias, info[x].quantPlanetas + 1, q, (int)numComb);
+
+		// A partir das configurações obtidas, precisamos selecionar a que a soma dê a menor distância correta.
+
+		// Após encontrar salto de menor valor, busca agora o maior salto entre as distancias originais.
 
 		// Grava o resultado na variável de saída.
-		info[x].resultado = maior;
+		// info[x].resultado = maior;
 
 	}
 }
