@@ -105,61 +105,90 @@ void obtemDados(int x, Info *info){
 	buscaCombinacoes(info[x].matriz, &num, info[x].distancias, info[x].quantPlanetas + 1, q, (int)numComb);
 }
 
+int encontraMaior(int menor, Info *info){
+	int x, maior;
+
+	maior = menor;
+	for(x = 0; x < info[x].quantPlanetas+1; x++){
+		if(menor >= maior) maior = menor;
+	}
+
+	return maior;
+}
+
 /*----------------------------------------*/
 
 /*-------------- ALGORITMOS --------------*/
 
 /* FORÇA BRUTA */
+int aplicaFB(int x, Info *info){
+	int menor;
 
+	//
+
+	return menor = 0; // valor 0 usado para evitar bug
+}
 
 void executaForcaBruta(int n, Info *info){
-	int x;
+	int x, menor;
 
 	// Faz todos os testes em força bruta.
 	for(x = 0; x < n; x++){
 		obtemDados(x, info);
 
 		// A partir das combinações obtidas, precisamos selecionar a que a soma dê a menor distância correta, usando FB.
+		menor = aplicaFB(x, info);
 
 		// Após encontrar salto de menor valor, busca agora o maior salto entre as distancias originais.
-
-		// Grava o resultado na variável de saída.
-		// info[x].resultado = maior;
-
+		info[x].resultado = encontraMaior(menor, info); // Grava o resultado na variável de saída.
 	}
 }
 
 /* SOLUÇÃO GULOSA */
+int aplicaAG(int x, Info *info){
+	int menor;
+
+	//
+
+	return menor = 0; // valor 0 usado para evitar bug
+}
+
 void executaAlgGuloso(int n, Info *info){
-	int x;
+	int x, menor;
 
 	// Faz todos os testes na solução gulosa.
 	for(x = 0; x < n; x++){
 		obtemDados(x, info);
 
 		// A partir das combinações obtidas, precisamos selecionar a que a soma dê a menor distância correta, usando AG.
+		menor = aplicaAG(x, info);
 
 		// Após encontrar salto de menor valor, busca agora o maior salto entre as distancias originais.
-
-		// Grava o resultado na variável de saída.
-		// info[x].resultado = maior;
+		info[x].resultado = encontraMaior(menor, info); // Grava o resultado na variável de saída.
 	}
 }
 
 /* PROGRAMAÇÃO DINÂMICA */
+int aplicaPD(int x, Info *info){
+	int menor;
+	
+	//
+
+	return menor = 0; // valor 0 usado para evitar bug
+}
+
 void executaProgDinamica(int n, Info *info){
-	int x;
+	int x, menor;
 
 	// Faz todos os testes em programação dinâmica.
 	for(x = 0; x < n; x++){
 		obtemDados(x, info);
 
 		// A partir das combinações obtidas, precisamos selecionar a que a soma dê a menor distância correta, usando PD.
+		menor = aplicaPD(x, info);
 
 		// Após encontrar salto de menor valor, busca agora o maior salto entre as distancias originais.
-
-		// Grava o resultado na variável de saída.
-		// info[x].resultado = maior;
+		info[x].resultado = encontraMaior(menor, info); // Grava o resultado na variável de saída.
 	}
 }
 
