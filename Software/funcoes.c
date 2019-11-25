@@ -171,7 +171,7 @@ void executaAlgGuloso(int n, Info *info){
 /* PROGRAMAÇÃO DINÂMICA */
 int aplicaPD(int x, Info *info){
 	int menor;
-	
+
 	//
 
 	return menor = 0; // valor 0 usado para evitar bug
