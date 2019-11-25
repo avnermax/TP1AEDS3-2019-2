@@ -1,7 +1,7 @@
 #include "funcoes.h"
 	int main(int argc, char* argv[]){
 	int n;
-	char arq[30], *alg = NULL;
+	char arq[50], *alg = NULL;
 	Info *info;
 
     // Pega qual algoritmo usar, como argumento.

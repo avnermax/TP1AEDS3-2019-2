@@ -11,10 +11,10 @@ typedef struct T_Info{
 /* funcoes.c */
 void imprimeResultado(int n, Info *info);
 Info * interpretaEntrada(int *n, char *entrada);
-
 int fat(int n);
 void combinacao(int **mat, int *k, int *vetor, int indice, int *data, int inicio, int fim, int r);
 void buscaCombinacoes(int **mat, int *k, int *vetor, int n, int r, int c);
+void obtemDados(int x, Info *info);
 
 void executaForcaBruta(int n, Info *info);
 void executaAlgGuloso(int n, Info *info);
