@@ -58,6 +58,7 @@ int fat(int n){
 void combinacao(int **mat, int *k, int *vetor, int indice, int *data, int inicio, int fim, int r){
 	int i, j;
 
+	// Caso base da recursão.
 	if (indice == r){
 		for (j = 0; j < r; j++){
 			mat[*k][j] = data[j];
@@ -69,6 +70,7 @@ void combinacao(int **mat, int *k, int *vetor, int indice, int *data, int inicio
 		return;
 	}
 
+	// Controla os passos da permutação.
 	for(i = inicio; i <= fim && fim-i+1 >= r-indice; i++){
 		data[indice] = vetor[i];
 		combinacao(mat, k, vetor, indice + 1, data, i + 1, fim, r);
