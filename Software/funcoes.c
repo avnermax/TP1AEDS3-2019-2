@@ -70,7 +70,7 @@ void combinacao(int **mat, int *somaDist, int indice, int inicio, int fim, int r
 	}
 
 	// Controla os passos da permutação.
-	for(i = inicio; i < fim && fim-i+1 >= r-indice; i++){
+	for(i = inicio; i < fim && fim-i+1 > r-indice; i++){
 		soma = mat[i-1][i] + mat[i][i+1];
 		printf("soma:%d\n", soma);
 		combinacao(mat, somaDist, indice + 1, i + 1, fim, r);
