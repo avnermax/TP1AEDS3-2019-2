@@ -64,13 +64,13 @@ void combinacao(int **mat, int *somaDist, int indice, int inicio, int fim, int r
 
 	// Caso base da recursão.
 	if (indice == r){
-		if(soma >= *somaDist) *somaDist = soma;
+		if(soma <= *somaDist) *somaDist = soma;
 
 		return;
 	}
 
 	// Controla os passos da permutação.
-	for(i = inicio; i < fim && fim-i+1 > r-indice; i++){
+	for(i = inicio; (i < fim) && ((fim-i)+1 > (r-indice)); i++){
 		soma = mat[i-1][i] + mat[i][i+1];
 		printf("soma:%d\n", soma);
 		combinacao(mat, somaDist, indice + 1, i + 1, fim, r);
@@ -97,6 +97,7 @@ void executaForcaBruta(int n, Info *info){
 		int fatB = fat(info[x].quantSaltos);
 		int fatC = fat(q);
 		numComb = fatA / (fatB * fatC);
+		printf("numComb:%d\n", (int)numComb);
 
 		// Inicia a recursão que busca as combinações.
 		combinacao(info[x].matDist, &info[x].resultado, 0, 1, info[x].quantPlanetas+1, (int)numComb);
