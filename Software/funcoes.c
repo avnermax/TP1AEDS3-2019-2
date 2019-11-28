@@ -83,13 +83,11 @@ void combinacao(int **mat, int *somaDist, int indice, int inicio, int fim, int r
 
 /* FORÇA BRUTA */
 void executaForcaBruta(int n, Info *info){
-	int x;
+	int x, q;
+	float numComb;
 
 	// Faz todos os testes em força bruta.
 	for(x = 0; x < n; x++){
-		int q;
-		float numComb;
-
 		q = info[x].quantPlanetas - info[x].quantSaltos;
 
 		// Determina o número máximo de combinações para uma configuração a ser testada.
