@@ -65,6 +65,9 @@ void combinacao(int **mat, int *somaDist, int *buffer, int indice, int inicio, i
 	// printf("indice:%d r:%d\n", indice, r);
 	// Caso base da recursão.
 	if (indice == r){
+		printf("indice:%d i:%d\n", indice, i);
+		// buffer[indice] = mat[i-1][i]; // Adiciona o último valor.
+
 		for (j = 0; j < r + 1; j++){
 			soma += buffer[j];
 			printf("%d,", buffer[j]);
