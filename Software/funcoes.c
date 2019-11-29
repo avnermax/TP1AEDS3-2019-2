@@ -112,7 +112,8 @@ void executaForcaBruta(int n, Info *info){
 
 	// Faz todos os testes em força bruta.
 	for(x = 0; x < n; x++){
-		info[x].resultado = 2147483647; // Inicializa a variável que receberá a soma da menor distância.
+		// Inicializa a variável que receberá a soma da maior distância.
+		info[x].resultado = 2147483647;
 
 		// Quantidade de planetas que serão removidos.
 		q = info[x].quantPlanetas - info[x].quantSaltos;
@@ -127,22 +128,51 @@ void executaForcaBruta(int n, Info *info){
 		buscaCombinacoes(info[x].matDist, &info[x].resultado, info[x].quantPlanetas + 2, q, (int)numComb);
 
 		// Após encontrar salto de menor valor, busca agora o maior salto entre as distancias originais.
-		info[x].resultado = encontraMaior(info[x].matDist, info[x].resultado, info[x].quantPlanetas + 2); // Grava o resultado na variável de saída.
+		info[x].resultado = encontraMaior(info[x].matDist, info[x].resultado, info[x].quantPlanetas + 2);
 	}
 }
 
 /* SOLUÇÃO GULOSA */
 void executaAlgGuloso(int n, Info *info){
-	int x;
+	int x, y, soma = 0, somaResult;
+	float media;
 
 	// Faz todos os testes na solução gulosa.
 	for(x = 0; x < n; x++){
+		// Inicializa a variável que receberá a soma da maior distância.
+		somaResult = 0;
 
-		// A partir das combinações obtidas, precisamos selecionar a que a soma dê a menor distância correta, usando AG.
-		// menor = aplicaAG(x, info);
+		// Soma todas as distâncias.
+		for(y = 1; y < info[x].quantPlanetas + 2; y++){
+			soma += info[x].matDist[y-1][y];
+		}
+
+		for(int i=0;i<info[x].quantPlanetas+2;i++){
+			for(int j=0;j<info[x].quantPlanetas+2;j++){
+				if(info[x].matDist[i][j] != 0){
+					printf("\033[1;31m%d ", info[x].matDist[i][j]);
+				}else{
+					printf("\033[0m%d ", info[x].matDist[i][j]);
+				}
+			}
+			printf("\n");
+		}
+
+		// Calcula a média das distâncias.
+		media = soma / (info[x].quantPlanetas + 1);
+		printf("media:%d\n", (int)media);
+
+		// Seleciona somente valores menores a média, soma e testa qual deles é o maior.
+		for(y = 1; y < info[x].quantPlanetas + 1; y++){
+			if(info[x].matDist[y-1][y] < (int)media){
+				if(somaResult < (info[x].matDist[y-1][y] + info[x].matDist[y][y+1]))
+					somaResult = (info[x].matDist[y-1][y] + info[x].matDist[y][y+1]);
+			}
+		}
+		printf("somaResult:%d\n\n", somaResult);
 
 		// Após encontrar salto de menor valor, busca agora o maior salto entre as distancias originais.
-		// info[x].resultado = encontraMaior(menor, info); // Grava o resultado na variável de saída.
+		info[x].resultado = somaResult;
 	}
 }
 
@@ -153,8 +183,7 @@ void executaProgDinamica(int n, Info *info){
 	// Faz todos os testes em programação dinâmica.
 	for(x = 0; x < n; x++){
 
-		// A partir das combinações obtidas, precisamos selecionar a que a soma dê a menor distância correta, usando PD.
-		// menor = aplicaPD(x, info);
+		//
 
 		// Após encontrar salto de menor valor, busca agora o maior salto entre as distancias originais.
 		// info[x].resultado = encontraMaior(menor, info); // Grava o resultado na variável de saída.
