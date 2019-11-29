@@ -68,6 +68,7 @@ int main(){
     M[i] = (int*)calloc(n,sizeof(int));
   //vetor exemplo
   int v[]={1,8,1,7,1,1,1,1,2};
+  // contrução da matriz exemplo
   for (int w = 0; w < n; w++) {
     soma=0;
     f=w;
@@ -77,7 +78,7 @@ int main(){
       M[y][w]=soma;
     }
   }
-  // contrução da matriz exemplo
+  // impressão da matriz exemplo
   printf("    " );
   for(int g = 0; g< n ; g++ )
   	printf(" %3d",g);
