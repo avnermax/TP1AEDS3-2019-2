@@ -59,20 +59,14 @@ int fat(int n){
 	return (n == 1 || n == 0) ? 1: n * fat(n - 1);
 }
 
-void combinacao(int **mat, int *somaDist, int *buffer, int indice, int inicio, int fim, int r){
+void combinacao(int **mat, int *somaDist, int *buffer, int indice, int *k, int inicio, int fim, int r){
 	int i, j, soma = 0;
 
-	// printf("indice:%d r:%d\n", indice, r);
 	// Caso base da recursão.
 	if (indice == r){
-		printf("indice:%d i:%d\n", indice, i);
-		// buffer[indice] = mat[i-1][i]; // Adiciona o último valor.
+		buffer[indice] = mat[*k-1][*k]; // Adiciona o último valor.
 
-		for (j = 0; j < r + 1; j++){
-			soma += buffer[j];
-			printf("%d,", buffer[j]);
-		}
-		printf("soma:%d\n", soma);
+		for (j = 0; j < r + 1; j++) soma += buffer[j];
 
 		if(soma <= *somaDist) *somaDist = soma;
 
@@ -82,18 +76,29 @@ void combinacao(int **mat, int *somaDist, int *buffer, int indice, int inicio, i
 	// Controla os passos da permutação.
 	for(i = inicio; (i < fim) && ((fim-i)+1 > (r-indice)); i++){
 		buffer[indice] = mat[i-1][i];
-		combinacao(mat, somaDist, buffer, indice + 1, i + 1, fim, r);
+		*k = i + 1;
+		combinacao(mat, somaDist, buffer, indice + 1, k, i + 1, fim, r);
 	}
 }
 
 void buscaCombinacoes(int **mat, int *somaDist, int n, int r, int c){
-	int *buffer;
+	int *buffer, k = 0;
 
 	// Vetor que contém os valores a serem somados.
 	buffer = (int*) calloc(r + 1, sizeof(int));
 
 	// Inicia a recursão que busca as combinações.
-	combinacao(mat, somaDist, buffer, 0, 1, n - 1, r);
+	combinacao(mat, somaDist, buffer, 0, &k, 1, n - 1, r);
+}
+
+int encontraMaior(int **mat, int somaResult, int tam){
+	int i;
+
+	for(i = 1; i < tam; i++){
+		if(somaResult < mat[i-1][i]) somaResult = mat[i-1][i];
+	}
+
+	return somaResult;
 }
 
 /*----------------------------------------*/
@@ -107,6 +112,8 @@ void executaForcaBruta(int n, Info *info){
 
 	// Faz todos os testes em força bruta.
 	for(x = 0; x < n; x++){
+		info[x].resultado = 2147483647; // Inicializa a variável que receberá a soma da menor distância.
+
 		// Quantidade de planetas que serão removidos.
 		q = info[x].quantPlanetas - info[x].quantSaltos;
 
@@ -115,28 +122,12 @@ void executaForcaBruta(int n, Info *info){
 		int fatB = fat(info[x].quantSaltos);
 		int fatC = fat(q);
 		numComb = fatA / (fatB * fatC);
-		printf("numComb:%d\n", (int)numComb);
 
 		// Inicia a busca das combinações.
 		buscaCombinacoes(info[x].matDist, &info[x].resultado, info[x].quantPlanetas + 2, q, (int)numComb);
 
-		for(int i=0; i<info[x].quantPlanetas+2; i++){
-			for(int j=0; j<info[x].quantPlanetas+2; j++){
-				if(info[x].matDist[i][j] != 0){
-					printf("\033[1;31m%d ", info[x].matDist[i][j]);
-				}else{
-					printf("\033[0m%d ", info[x].matDist[i][j]);
-				}
-			}
-			printf("\n");
-		}
-		printf("\n");
-
-		// A partir das combinações obtidas, precisamos selecionar a que a soma dê a menor distância correta, usando FB.
-		// menor = aplicaFB(x, info);
-
 		// Após encontrar salto de menor valor, busca agora o maior salto entre as distancias originais.
-		// info[x].resultado = encontraMaior(menor, info); // Grava o resultado na variável de saída.
+		info[x].resultado = encontraMaior(info[x].matDist, info[x].resultado, info[x].quantPlanetas + 2); // Grava o resultado na variável de saída.
 	}
 }
 
