@@ -59,11 +59,17 @@ int fat(int n){
 	return (n == 1 || n == 0) ? 1: n * fat(n - 1);
 }
 
-void combinacao(int **mat, int *somaDist, int indice, int inicio, int fim, int r){
-	int i, soma = 0;
+void combinacao(int **mat, int *somaDist, int *buffer, int indice, int inicio, int fim, int r){
+	int i, j, soma = 0;
 
 	// Caso base da recursão.
 	if (indice == r){
+		for (j = 0; j < r + 1; j++){
+			soma += buffer[j];
+			printf("%d,", buffer[j]);
+		}
+		printf("soma:%d\n", soma);
+
 		if(soma <= *somaDist) *somaDist = soma;
 
 		return;
@@ -71,10 +77,19 @@ void combinacao(int **mat, int *somaDist, int indice, int inicio, int fim, int r
 
 	// Controla os passos da permutação.
 	for(i = inicio; (i < fim) && ((fim-i)+1 > (r-indice)); i++){
-		soma = mat[i-1][i] + mat[i][i+1];
-		printf("soma:%d\n", soma);
-		combinacao(mat, somaDist, indice + 1, i + 1, fim, r);
+		buffer[indice] = mat[i-1][i];
+		combinacao(mat, somaDist, buffer, indice + 1, i + 1, fim, r);
 	}
+}
+
+void buscaCombinacoes(int **mat, int *somaDist, int n, int r, int c){
+	int *buffer;
+
+	// Vetor que contém os itens a serem somados.
+	buffer = (int*) calloc(r + 1, sizeof(int));
+
+	// Inicia a recursão que busca as combinações.
+	combinacao(mat, somaDist, buffer, 0, 1, n - 1, r);
 }
 
 /*----------------------------------------*/
@@ -97,8 +112,8 @@ void executaForcaBruta(int n, Info *info){
 		numComb = fatA / (fatB * fatC);
 		printf("numComb:%d\n", (int)numComb);
 
-		// Inicia a recursão que busca as combinações.
-		combinacao(info[x].matDist, &info[x].resultado, 0, 1, info[x].quantPlanetas+1, (int)numComb);
+		// Inicia a busca das combinações.
+		buscaCombinacoes(info[x].matDist, &info[x].resultado, info[x].quantPlanetas + 2, q, (int)numComb);
 
 		for(int i=0; i<info[x].quantPlanetas+2; i++){
 			for(int j=0; j<info[x].quantPlanetas+2; j++){
