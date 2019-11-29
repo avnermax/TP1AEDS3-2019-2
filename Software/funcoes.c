@@ -62,6 +62,7 @@ int fat(int n){
 void combinacao(int **mat, int *somaDist, int *buffer, int indice, int inicio, int fim, int r){
 	int i, j, soma = 0;
 
+	// printf("indice:%d r:%d\n", indice, r);
 	// Caso base da recursão.
 	if (indice == r){
 		for (j = 0; j < r + 1; j++){
@@ -85,7 +86,7 @@ void combinacao(int **mat, int *somaDist, int *buffer, int indice, int inicio, i
 void buscaCombinacoes(int **mat, int *somaDist, int n, int r, int c){
 	int *buffer;
 
-	// Vetor que contém os itens a serem somados.
+	// Vetor que contém os valores a serem somados.
 	buffer = (int*) calloc(r + 1, sizeof(int));
 
 	// Inicia a recursão que busca as combinações.
@@ -103,6 +104,7 @@ void executaForcaBruta(int n, Info *info){
 
 	// Faz todos os testes em força bruta.
 	for(x = 0; x < n; x++){
+		// Quantidade de planetas que serão removidos.
 		q = info[x].quantPlanetas - info[x].quantSaltos;
 
 		// Determina o número máximo de combinações para uma configuração a ser testada.
