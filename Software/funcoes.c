@@ -101,10 +101,16 @@ int encontraMaior(int **mat, int somaResult, int tam){
 	return somaResult;
 }
 
+int somaBuffer(int *b, int tam){
+	int i, soma = 0;
+
+	for(i = 0; i < tam; i++) soma += b[i];
+
+	return soma;
+}
 /*----------------------------------------*/
 
 /*-------------- ALGORITMOS --------------*/
-
 /* FORÇA BRUTA */
 void executaForcaBruta(int n, Info *info){
 	int x, q;
@@ -134,45 +140,66 @@ void executaForcaBruta(int n, Info *info){
 
 /* SOLUÇÃO GULOSA */
 void executaAlgGuloso(int n, Info *info){
-	int x, y, soma = 0, somaResult;
+	int x, y, z, q, soma = 0, somaResult, *buffer;
 	float media;
 
 	// Faz todos os testes na solução gulosa.
 	for(x = 0; x < n; x++){
 		// Inicializa a variável que receberá a soma da maior distância.
-		somaResult = 0;
+		somaResult = 2147483647;
 
-		// Soma todas as distâncias.
-		for(y = 1; y < info[x].quantPlanetas + 2; y++){
-			soma += info[x].matDist[y-1][y];
-		}
-
-		for(int i=0;i<info[x].quantPlanetas+2;i++){
-			for(int j=0;j<info[x].quantPlanetas+2;j++){
-				if(info[x].matDist[i][j] != 0){
-					printf("\033[1;31m%d ", info[x].matDist[i][j]);
-				}else{
-					printf("\033[0m%d ", info[x].matDist[i][j]);
-				}
-			}
-			printf("\n");
-		}
+		// Soma todas as distâncias, para calcular a média.
+		for(y = 1; y < info[x].quantPlanetas + 2; y++) soma += info[x].matDist[y-1][y];
 
 		// Calcula a média das distâncias.
 		media = soma / (info[x].quantPlanetas + 1);
-		printf("media:%d\n", (int)media);
 
-		// Seleciona somente valores menores a média, soma e testa qual deles é o maior.
-		for(y = 1; y < info[x].quantPlanetas + 1; y++){
-			if(info[x].matDist[y-1][y] < (int)media){
-				if(somaResult < (info[x].matDist[y-1][y] + info[x].matDist[y][y+1]))
-					somaResult = (info[x].matDist[y-1][y] + info[x].matDist[y][y+1]);
+		q = info[x].quantPlanetas-info[x].quantSaltos;
+
+		// Aloca vetor para armazenar valores menores que a media.
+		buffer = (int*) calloc(q, sizeof(int));
+
+		z = 0;
+		// Preenche buffer com valores menores que a média.
+		for(y = 1; y < info[x].quantPlanetas + 2; y++){
+			// Seleciona somente valores menores a média, soma e testa qual deles é o maior.
+			if(z < q && info[x].matDist[y-1][y] < (int)media){
+				buffer[z] = info[x].matDist[y-1][y];
+				z++;
 			}
 		}
-		printf("somaResult:%d\n\n", somaResult);
+
+		z = 0;
+		for(y = 1; y < info[x].quantPlanetas + 2; y++){
+			// Procura na matriz, os itens armazenados no buffer, para somar seus adjacentes.
+			if(z < q && info[x].matDist[y-1][y] == buffer[z]){
+				if(y == 1){ // Caso esteja na linha 0 da matriz.
+
+					if(buffer[z] > (info[x].matDist[y-1][y] + info[x].matDist[y][y+1]))
+						buffer[z] = (info[x].matDist[y-1][y] + info[x].matDist[y][y+1]);
+
+				}else if(y > 1){ // Caso não esteja na linha 0 da matriz.
+
+					if(buffer[z] > (info[x].matDist[y-1][y] + info[x].matDist[y][y+1]))
+						buffer[z] = (info[x].matDist[y-1][y] + info[x].matDist[y][y+1]);
+
+					if(buffer[z] > (info[x].matDist[y-1][y] + info[x].matDist[y-1][y-1]))
+						buffer[z] = (info[x].matDist[y-1][y] + info[x].matDist[y-1][y-1]);
+
+				}else if(y == info[x].quantPlanetas + 1){ // Caso esteja na última linha da matriz.
+
+					if(buffer[z] > (info[x].matDist[y-1][y] + info[x].matDist[y-1][y-1]))
+						buffer[z] = (info[x].matDist[y-1][y] + info[x].matDist[y-1][y-1]);
+
+				}
+				z++;
+			}
+		}
+
+		somaResult = somaBuffer(buffer, q);
 
 		// Após encontrar salto de menor valor, busca agora o maior salto entre as distancias originais.
-		info[x].resultado = somaResult;
+		info[x].resultado = encontraMaior(info[x].matDist, somaResult, info[x].quantPlanetas + 2);
 	}
 }
 
