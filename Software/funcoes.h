@@ -15,7 +15,7 @@ int fat(int n);
 void combinacao(int **mat, int *somaDist, int *buffer, int indice, int *k, int inicio, int fim, int r);
 void buscaCombinacoes(int **mat, int *somaDist, int n, int r, int c);
 int encontraMaior(int **mat, int somaResult, int tam);
-int somaBuffer(int *b, int tam);
+int somaBuffer(int *buffer, int *vet, int tam);
 
 void executaForcaBruta(int n, Info *info);
 void executaAlgGuloso(int n, Info *info);
