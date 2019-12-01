@@ -1,6 +1,7 @@
 #include "funcoes.h"
-	int main(int argc, char* argv[]){
-	int n;
+
+int main(int argc, char* argv[]){
+	int n, x, y;
 	char arq[50], *alg = NULL;
 	Info *info;
 
@@ -26,6 +27,16 @@
 	}
 
 	imprimeResultado(n, info); // Guarda resultados no arquivo 'saida'.
+
+	// Libera a matriz.
+	for(x = 0; x < n; x++){
+		for(y = 0; y < info[x].quantPlanetas + 2; y++){
+			free(info[x].matDist[y]);
+		}
+		free(info[x].matDist);
+	}
+	// Libera a struct.
+	free(info);
 
 	return 0;
 }

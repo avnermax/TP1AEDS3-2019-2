@@ -78,7 +78,7 @@ void combinacao(int **mat, int *somaDist, int *buffer, int indice, int *k, int i
 		return;
 	}
 
-	// Controla os passos da permutação.
+	// Controla os passos da combinação.
 	for(i = inicio; (i < fim) && ((fim-i)+1 > (r-indice)); i++){
 		buffer[indice] = mat[i-1][i];
 		*k = i + 1;
@@ -94,6 +94,8 @@ void buscaCombinacoes(int **mat, int *somaDist, int n, int r, int c){
 
 	// Inicia a recursão que busca as combinações.
 	combinacao(mat, somaDist, buffer, 0, &k, 1, n - 1, r);
+
+	free(buffer);
 }
 
 int encontraMaior(int **mat, int somaResult, int tam){
@@ -205,6 +207,10 @@ void executaAlgGuloso(int n, Info *info){
 
 		// Após encontrar salto de menor valor, busca agora o maior salto entre as distancias originais.
 		info[x].resultado = encontraMaior(info[x].matDist, somaResult, info[x].quantPlanetas + 2);
+
+		// Libera vetores utilizados para teste.
+		free(buffer);
+		free(vetValores);
 	}
 }
 
