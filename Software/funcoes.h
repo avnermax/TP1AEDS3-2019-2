@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <time.h>
+#include <sys/time.h>
+#include <sys/resource.h>
 
 typedef struct T_Info{
 	int **matDist, quantPlanetas, quantSaltos;

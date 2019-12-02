@@ -161,9 +161,9 @@ void executaForcaBruta(int n, Info *info){
 		q = info[x].quantPlanetas - info[x].quantSaltos;
 
 		// Determina o número máximo de combinações para uma configuração a ser testada.
-		int fatA = fat(info[x].quantPlanetas);
-		int fatB = fat(info[x].quantSaltos);
-		int fatC = fat(q);
+		long int fatA = fat(info[x].quantPlanetas);
+		long long int fatB = fat(info[x].quantSaltos);
+		long int fatC = fat(q);
 		numComb = fatA / (fatB * fatC);
 
 		// Inicia a busca das combinações.
