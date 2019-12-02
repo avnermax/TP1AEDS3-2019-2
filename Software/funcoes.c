@@ -192,6 +192,7 @@ void executaAlgGuloso(int n, Info *info){
 
 		// Aloca vetor para armazenar os 'q' valores menores que a media.
 		buffer = (int*) calloc(info[x].quantPlanetas + 1, sizeof(int));
+		// Aloca vetor para armazenar todas as distâncias.
 		vetValores = (int*) calloc(info[x].quantPlanetas + 1, sizeof(int));
 
 		for(y = 1; y < info[x].quantPlanetas + 2; y++){
