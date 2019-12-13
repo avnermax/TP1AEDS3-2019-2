@@ -71,15 +71,20 @@ void combinacao(int **mat, int *somaDist, int *buffer, int indice, int *k, int i
 	if (indice == r){
 		buffer[indice] = mat[*k-1][*k]; // Adiciona o último valor no buffer.
 
-		for (j = 0; j < r + 1; j++) soma += buffer[j];
+		for (j = 0; j < r + 1; j++){
+			// printf("buffer[%d]:%d\n", j, buffer[j]);
+			soma += buffer[j];
+		}
 
 		if(soma <= *somaDist) *somaDist = soma;
+		// printf("soma:%d\n", soma);
+		printf("\n");
 
 		return;
 	}
 
 	// Controla os passos da combinação.
-	for(i = inicio; (i < fim) && ((fim-i)+1 > (r-indice)); i++){
+	for(i = inicio; i < fim && fim-i+1 >= r-indice; i++){
 		buffer[indice] = mat[i-1][i];
 		*k = i + 1;
 		combinacao(mat, somaDist, buffer, indice + 1, k, i + 1, fim, r);
@@ -105,6 +110,41 @@ int encontraMaior(int **mat, int somaResult, int tam){
 		if(somaResult < mat[i-1][i]) somaResult = mat[i-1][i];
 
 	return somaResult;
+}
+
+int pegaMenor(int tam, int *buffer, int *vetValores){
+	int menor, x, y;
+
+	// Atribui a primeira posição para encontrar o menor;
+	for(x = 0; x < tam; x++){
+		if(buffer[x] == 0){
+			menor = vetValores[0];
+			y = x;
+		}
+	}
+	// Procura o menor, entre os valores que não estão presentes no buffer.
+	for(x = y; x < tam; x++){
+		if(buffer[x] != 0 && vetValores[x] < menor){
+			// Salva o menor indice.
+			menor = x;
+		}
+	}
+
+	return menor;
+}
+
+void contaPlanetas(int tam, int q, int *buffer, int *vetValores){
+	int x, i, conta = 0;
+
+	do{
+
+		for(x = 0; x < tam; x++) if(buffer[x] != 0) conta++;
+		if(conta < q){
+			i = pegaMenor(tam, buffer, vetValores);
+			buffer[i] = vetValores[i];
+		}
+
+	}while(conta < q);
 }
 
 int somaBuffer(int *buffer, int *vet, int tam){
@@ -176,7 +216,7 @@ void executaForcaBruta(int n, Info *info){
 
 /* SOLUÇÃO GULOSA */
 void executaAlgGuloso(int n, Info *info){
-	int x, y, soma, somaResult, *buffer, *vetValores;
+	int q, x, y, soma, somaResult, *buffer, *vetValores;
 	float media;
 
 	// Faz todos os testes na solução gulosa.
@@ -202,6 +242,18 @@ void executaAlgGuloso(int n, Info *info){
 			// Preenche 'vetValores' todos valores da matriz para teste posterior.
 			vetValores[y-1] = info[x].matDist[y-1][y];
 		}
+
+		// Quantidade de planetas que devem conter no buffer.
+		q = info[x].quantPlanetas - info[x].quantSaltos;
+
+		// Verifica se os 'n-k' planetas foram preenchidos no buffer.
+		contaPlanetas(info[x].quantPlanetas + 1, q, buffer, vetValores);
+
+		// TESTE PARA MOSTRAR PREENCHIMENTO CORRETO DO BUFFER.
+		// for(int i=0; i<info[x].quantPlanetas + 1; i++){
+		// 	printf("buffer[%d]%d\n", i, buffer[i]);
+		// }
+		// printf("\n");
 
 		// Soma valores e adjacentes que são menores que a media.
 		somaResult = somaBuffer(buffer, vetValores, info[x].quantPlanetas + 1);
